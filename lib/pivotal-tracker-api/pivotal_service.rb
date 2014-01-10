@@ -24,10 +24,10 @@ class PivotalService
       @project = Scorer::Project.parse_json_project(json_project)
     end
 
-    def activity(project_id, story_id=0, limit=20)
+    def activity(project_id, story_id=0, occurred_after)
       api_url = "/projects/#{project_id}/"
       api_url = api_url + "stories/#{story_id}/" if story_id > 0
-      api_url = api_url + "activity?limit=#{limit}"
+      api_url = api_url + "activity?occurred_after=#{occurred_after}"
       response = Scorer::Client.get(api_url)
       json_activity = JSON.parse(response, {:symbolize_names => true})
       Scorer::Activity.parse_json_activity(json_activity, project_id)
